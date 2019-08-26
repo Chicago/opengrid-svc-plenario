@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import javax.ws.rs.core.Response;
+import org.opengrid.data.ServiceCapabilities;
 
 @Component("OpenGridServiceBean_Test")
 public class OpenGridMongoService implements OpenGridService {
@@ -93,20 +95,21 @@ public class OpenGridMongoService implements OpenGridService {
 
 
 	@Override
-	public String executeOpenGridQueryWithParams(String datasetId, String filter, int max, String sort) {
+	public String executeOpenGridQueryWithParams(String datasetId, String filter, int max, String sort, String options) {
 		return omniDataProvider.getData(
 				datasetId,
-				ServiceProperties.getProperties().getStringProperty("mongo.metaCollectionName"), 
+				null, 
 				filter, 
 				max,
-				sort);
+				sort,
+                                options);
 	}
 
 
 	@Override
 	public String getOpenGridDataset(String datasetId) throws JsonParseException, JsonMappingException, ServiceException, IOException {
 		return omniDataProvider.getDescriptor(
-				ServiceProperties.getProperties().getStringProperty("mongo.metaCollectionName"),
+				null,
 				datasetId).toString();
 	}
 
@@ -212,4 +215,21 @@ public class OpenGridMongoService implements OpenGridService {
 		tokenAuthService.renewAuthentication(mc.getHttpServletRequest(), mc.getHttpServletResponse());
 	}		
 
+    @Override
+    public ServiceCapabilities getServiceCapabilities() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Response options() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+ 	public String executeOpenGridQueryWithParamsPost(String datasetId, String filter, int max, String sort, String options) {
+ 		//this is called when POST method is used
+ 		//we have now transitioned to using POST as of core 1.3.0
+ 		return executeOpenGridQueryWithParams(datasetId, filter, max, sort, options);
+ 	}
+    
 }

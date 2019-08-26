@@ -36,6 +36,26 @@ public class PlenarioSearchTest {
 	public static void cleanupTest() {
 	}
 	
+        //@Test
+	public void t1a_SearchDatasetID() {
+		GenericRetrievable gr = new PlenarioDataProvider();
+		try {
+			String a = gr.getData("cdph_environmental_inspections", 
+					null, 
+					"{}", //filter
+					6000,
+					null,
+                                        null);
+                        
+                        com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
+                        JsonElement object = parser.parse(a);
+                        
+			assertTrue("Result cannot be null", a !=null);
+		} catch (Exception ex) {
+			assertTrue("Unexpected exception message on bad dataset ID", ex.getMessage().indexOf("Cannot find dataset descriptor") > -1);
+		}
+	}
+        
 	@Test
 	public void t1_GetAllDatasetIds() {
 		
@@ -51,15 +71,16 @@ public class PlenarioSearchTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void t2_SearchDatasetID() {
 		GenericRetrievable gr = new PlenarioDataProvider();
 		try {
 			String a = gr.getData("311_service_requests_alley_lights_out", 
-					"", 
-					"{\"$and\":[{\"start_date\":{\"$gte\":1447653600000}}]}", //filter
+					null, 
+					"{\"$and\":[{\"creation_date\":{\"$gte\":1468463580000}}]}", //filter
 					6000,
-					null);
+					null,
+                                        null);
                         
                         com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
                         JsonElement object = parser.parse(a);
@@ -75,7 +96,7 @@ public class PlenarioSearchTest {
 		GenericRetrievable gr = new PlenarioDataProvider();
                 try
                 {
-                OpenGridDataset dataset = gr.getDescriptorInternal("", "311_service_requests_pot_holes_reported", false);		
+                OpenGridDataset dataset = gr.getDescriptorInternal(null, "311_service_requests_pot_holes_reported", false);		
 		assertTrue("Result cannot be null", dataset !=null);
                 }
                 catch(Exception ex)
@@ -97,7 +118,7 @@ public class PlenarioSearchTest {
 			if (!descriptors.isEmpty())
                             descriptors += ", ";
 			
-                        descriptors += gr.getDescriptorInternal("",s, false);
+                        descriptors += gr.getDescriptorInternal(null,s, false);
 		
 		}
                     
@@ -109,15 +130,16 @@ public class PlenarioSearchTest {
                 }
 	}
         
-        @Test
+        //@Test
 	public void t5_SearchDatasetID() {
 		GenericRetrievable gr = new PlenarioDataProvider();
 		try {
 			String a = gr.getData("311_service_requests_pot_holes_reported", 
-					"", 
+					null, 
 					"{\"$and\":[{\"zip\":60601},{\"start_date\":{\"$gte\":1438405200000}}]}", //filter
 					6000,
-					null);
+					null,
+                                        null);
                         
                         com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
                         JsonElement object = parser.parse(a);
@@ -128,15 +150,16 @@ public class PlenarioSearchTest {
 		}
 	}
         
-        @Test
+        //@Test
 	public void t6_SearchDatasetID() {
 		GenericRetrievable gr = new PlenarioDataProvider();
 		try {
 			String a = gr.getData("311_service_requests_pot_holes_reported", 
-					"", 
+					null, 
 					"{\"$and\":[{\"start_date\":{\"$gte\":\"12/01/2015\",\"$lte\":\"12/03/2015\"}}]}", //filter
 					6000,
-					null);
+					null,
+                                        null);
                         
                         com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
                         JsonElement object = parser.parse(a);
@@ -147,15 +170,18 @@ public class PlenarioSearchTest {
 		}
 	}
         
-        @Test
+        //@Test
 	public void t7_SearchDatasetID() {
 		GenericRetrievable gr = new PlenarioDataProvider();
 		try {
 			String a = gr.getData("311_service_requests_pot_holes_reported", 
-					"", 
+					null, 
 					"{\"$and\":[{\"service_request_number\":{\"$regex\":\"^6\"}}]}", //filter
 					6000,
-					null);
+					null,
+                                        null);
+                        
+                        
                         
                         com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
                         JsonElement object = parser.parse(a);
@@ -165,5 +191,25 @@ public class PlenarioSearchTest {
 			assertTrue("Unexpected exception message on bad dataset ID", ex.getMessage().indexOf("Cannot find dataset descriptor") > -1);
 		}
 	}
+        //@Test
+	public void t8_SearchDatasetID() {
+		GenericRetrievable gr = new PlenarioDataProvider();
+		try {
+			String a = gr.getData("311_service_requests_garbage_carts", 
+					null, 
+					"{\"$and\":[{\"current_activity\":\"1\"},{\"police_district\":2},{\"$and\":[{\"current_activity\":\"1\"},{\"creation_date\":{\"$gt\":1474651260000}}]}]}", //filter
+					6000,
+					null,
+                                        null);
+                        
+                        
+                        
+                        com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
+                        JsonElement object = parser.parse(a);
+                        
+			assertTrue("Result cannot be null", a !=null);
+		} catch (Exception ex) {
+			assertTrue("Unexpected exception message on bad dataset ID", ex.getMessage().indexOf("Cannot find dataset descriptor") > -1);
+		}
+        }
 }
-
